@@ -104,5 +104,6 @@ void main(void)
 	for (i=1;i<10;i++)
 		print_avaible_by(array, i, i, 0, 1);
 	print_path_array(array);
+	printf("Баг в том, что несмотря на то, что я использую by 1, но находится элемент например 8->3. Где-то косяк с записью by в элемент структуры при добавлении\n");
 	return;
 }
