@@ -20,14 +20,17 @@ void print_ar(int ar[10][10])
 
 int get_path_from(int from, int len)
 {
-	int i,j;
+	int i,j,k;
 	int tmp[10][10];
-	printf("Get path from: %d\n",from);
+	printf("Get path from: %d, len: %d\n",from,len);
 	for (j=0;j<=len;j++) {
 		printf("Len: %d\n", j);
+		k=j;
 		for (i=1;i<10;i++)
-			if (ar[from][i]>-1)
+			if (ar[from][i]>-1) {
 				printf(" %d ", ar[from][i] );
+				get_path_from(i, j-1);
+			}
 			else
 				printf(" x ");
 	printf("\n");
@@ -63,7 +66,7 @@ int main(void)
 	int i,j,k;
 	init_ar(ar);
 	print_ar(ar);
-	get_path_from(1,0);
+	get_path_from(1,1);
 	return 0;
 
 }
