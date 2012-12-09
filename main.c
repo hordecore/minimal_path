@@ -10,6 +10,7 @@ static struct path tmp[10][10];
 
 void add_path(struct path *elem, int by, int cost)
 {
+	printf("cost: %d, by: %d\n", cost, by);
 	elem->cost = cost;
 	elem->by = by;
 	return;
@@ -51,10 +52,15 @@ void init_path(struct path arr[10][10])
 void print_path_array(struct path arr[10][10])
 {
 	int i,j;
+	printf("t\\f|_1__2__3__4__5__6__7__8__9_\n");
 	for (i=1;i<10;i++) {
+		printf(" %d |",i);
 		for (j=1;j<10;j++)
 			if (arr[j][i].cost > -1)
-				printf(" %d ", arr[j][i].cost);
+				if (arr[j][i].cost < 10)
+					printf(" %d ", arr[j][i].cost);
+				else
+					printf(" %d", arr[j][i].cost);
 			else
 				printf(" x ");
 		printf("\n");
@@ -72,35 +78,31 @@ void print_avaible(struct path arr[10][10], int from)
 	return;
 }
 
-int eval_path_by(int from, int to, struct path p1, struct path p2) {
-	if (from == to)
-		return 0;
-	printf("\nfrom: %d to %d:\n", from, to);
-	printf("p1.by: %d\np2.by: %d\n\n", p1.by, p2.by);
-	return 0;
-}
-
-void print_avaible_by(struct path arr[10][10], int orig, int from, int by) 
+void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by, int by) 
 {
 	int i,j;
-	if (by < 0)
+	if (tmp_by < 0 || tmp_by > by)
 		return;
 	for (i=1;i<10;i++) {
-		if (arr[from][i].cost > 0 && orig != i) {
+		if (arr[from][i].cost > 0 && orig != i ) {
 			printf("%d->%d: %d", orig, i, arr[orig][from].cost + arr[from][i].cost);
 			printf("  path: %d -> %d -> %d\n", orig, from, i);
-			add_path(&arr[orig][i], arr[orig][from].cost + arr[from][i].cost, by);
-			print_avaible_by(arr, orig, i, by-1);
+			if (arr[orig][i].cost <= 0) {
+				add_path(&arr[orig][i], tmp_by,arr[orig][from].cost + arr[from][i].cost);
+			}
+			print_avaible_by(arr, orig, i, ++tmp_by, by);
 		}
 	}
-
 }
 
 void main(void)
 {
+	int i;
 	init_path(array);
 	init_path(tmp);
 	print_path_array(array);
-	print_avaible_by(array, 2, 2, 1);
+	for (i=1;i<10;i++)
+		print_avaible_by(array, i, i, 0, 1);
+	print_path_array(array);
 	return;
 }
