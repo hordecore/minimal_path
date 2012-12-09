@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+static int ar[10][10];
+
 void print_ar(int ar[10][10])
 {
 	int i,j;
@@ -16,12 +18,31 @@ void print_ar(int ar[10][10])
 	return;
 }
 
+int get_path_from(int from, int len)
+{
+	int i,j;
+	int tmp[10][10];
+	printf("Get path from: %d\n",from);
+	for (j=0;j<=len;j++) {
+		printf("Len: %d\n", j);
+		for (i=1;i<10;i++)
+			if (ar[from][i]>-1)
+				printf(" %d ", ar[from][i] );
+			else
+				printf(" x ");
+	printf("\n");
+}
+}
+
 void init_ar(int ar[10][10])
 {
 	int i,j;
 	for (i=1;i<10;i++) {
 		for (j=1;j<10;j++) {
-			ar[i][j]=-1;
+			if (i!=j) 
+				ar[i][j]=-1;
+			else 
+				ar[i][j]=0;
 		}
 	}
 	ar[1][2]=8;
@@ -35,15 +56,14 @@ void init_ar(int ar[10][10])
 	return;
 }
 
+
+
 int main(void)
 {
-	int ar[10][10];
 	int i,j,k;
 	init_ar(ar);
-	for (i=1;i<10;i++)
-		ar[i][i]=0;
-	printf("itworks %d\n", 10);
 	print_ar(ar);
+	get_path_from(1,0);
 	return 0;
 
 }
