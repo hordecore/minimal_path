@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 static int ar[10][10];
+static int tmp[10][10];
 
 void print_ar(int ar[10][10])
 {
@@ -18,23 +19,24 @@ void print_ar(int ar[10][10])
 	return;
 }
 
-int get_path_from(int from, int len)
+int get_path_from(int orig, int from, int len)
 {
 	int i,j,k;
-	int tmp[10][10];
-	printf("Get path from: %d, len: %d\n",from,len);
+	if (len<0)
+		return -1;
+	//printf("Get path from: %d, len: %d\n",from,len);
 	for (j=0;j<=len;j++) {
-		printf("Len: %d\n", j);
+		//printf("Len: %d\n", j);
 		k=j;
 		for (i=1;i<10;i++)
-			if (ar[from][i]>-1) {
-				printf(" %d ", ar[from][i] );
-				get_path_from(i, j-1);
+			if (ar[from][i]>0) {
+				printf("%d -> %d = %d\n", orig, i, tmp[orig][from] + ar[from][i]);
+				tmp[orig][i] = tmp[orig][from]+ar[from][i];
+				get_path_from(from, i, j-1);
 			}
-			else
-				printf(" x ");
-	printf("\n");
-}
+		printf("\n");
+	}
+	return 0;
 }
 
 void init_ar(int ar[10][10])
@@ -48,14 +50,30 @@ void init_ar(int ar[10][10])
 				ar[i][j]=0;
 		}
 	}
+
 	ar[1][2]=8;
 	ar[2][3]=4;
 	ar[3][5]=8;
+	ar[3][1]=2;
 	ar[4][3]=5;
+	ar[4][6]=5;
 	ar[5][4]=4;
 	ar[5][6]=6;
 	ar[6][1]=7;
+	ar[6][3]=3;
+	ar[6][8]=1;
+	ar[7][5]=1;
 	ar[7][6]=2;
+	ar[7][8]=7;
+	ar[8][7]=1;
+	ar[8][1]=5;
+	ar[8][9]=2;
+	ar[9][1]=1;
+	ar[9][8]=3;
+
+	for (i=1;i<10;i++)
+		for (j=1;j<10;j++)
+			tmp[i][j]=ar[i][j];
 	return;
 }
 
@@ -66,7 +84,9 @@ int main(void)
 	int i,j,k;
 	init_ar(ar);
 	print_ar(ar);
-	get_path_from(1,1);
+	for (i=1;i<10;i++)
+		get_path_from(i,i,1);
+	print_ar(tmp);
 	return 0;
 
 }
