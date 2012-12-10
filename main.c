@@ -89,7 +89,7 @@ void main(void)
 	for (k=0;k<=6;k++) {
 		printf("C(k=%d)\n", k);
 		for (i=1;i<10;i++) 
-			print_avaible_by(array, i, i, 0, 6);
+			print_avaible_by(array, i, i, 0, k);
 		print_path_array(array);
 		printf("\n");
 	}
