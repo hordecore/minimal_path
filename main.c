@@ -85,7 +85,7 @@ void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by, i
 		return;
 	for (i=1;i<10;i++) {
 		if (arr[from][i].cost > 0 && orig != i ) {
-			if (arr[orig][i].cost <= 0 && tmp_by <= by) {
+			if ((arr[orig][i].cost <= 0 || arr[orig][i].cost > arr[orig][from].cost + arr[from][i].cost) && tmp_by <= by) {
 				printf("%d->%d: %d by %d\n", orig, i, arr[orig][from].cost + arr[from][i].cost, tmp_by);
 				add_path(&arr[orig][i], tmp_by,arr[orig][from].cost + arr[from][i].cost);
 			}
@@ -104,6 +104,5 @@ void main(void)
 	for (i=1;i<10;i++)
 		print_avaible_by(array, i, i, 0, 6);
 	print_path_array(array);
-	printf("1->6 = 29, because of go by 5->4->6 and not by 5->6\n");
 	return;
 }
