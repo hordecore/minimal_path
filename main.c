@@ -10,7 +10,7 @@ static struct path tmp[10][10];
 
 void add_path(struct path *elem, int by, int cost)
 {
-	printf("cost: %d, by: %d\n", cost, by);
+//	printf("cost: %d, by: %d\n", cost, by);
 	elem->cost = cost;
 	elem->by = by;
 	return;
@@ -80,13 +80,15 @@ void print_avaible(struct path arr[10][10], int from)
 
 void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by, int by) 
 {
+	TMP БЛЯ
 	int i,j;
+	printf("Input: %d %d %d %d", orig, from, tmp_by, by);
 	if (tmp_by < 0 || tmp_by > by)
 		return;
 	for (i=1;i<10;i++) {
 		if (arr[from][i].cost > 0 && orig != i ) {
-			printf("%d->%d: %d", orig, i, arr[orig][from].cost + arr[from][i].cost);
-			printf("  path: %d -> %d -> %d\n", orig, from, i);
+			if ( orig == 1 )
+				printf("%d->%d: %d by %d\n", orig, i, arr[orig][from].cost + arr[from][i].cost, by);
 			if (arr[orig][i].cost <= 0) {
 				add_path(&arr[orig][i], tmp_by,arr[orig][from].cost + arr[from][i].cost);
 			}
