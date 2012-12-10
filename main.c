@@ -104,5 +104,6 @@ void main(void)
 	for (i=1;i<10;i++)
 		print_avaible_by(array, i, i, 0, 6);
 	print_path_array(array);
+	printf("1->6 = 29, because of go by 5->4->6 and not by 5->6\n");
 	return;
 }
