@@ -86,7 +86,7 @@ void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by, i
 	for (i=1;i<10;i++) {
 		if (arr[from][i].cost > 0 && orig != i ) {
 			if ((arr[orig][i].cost <= 0 || arr[orig][i].cost > arr[orig][from].cost + arr[from][i].cost) && tmp_by <= by) {
-				printf("%d->%d: %d by %d\n", orig, i, arr[orig][from].cost + arr[from][i].cost, tmp_by);
+				//printf("%d->%d: %d by %d\n", orig, i, arr[orig][from].cost + arr[from][i].cost, tmp_by);
 				add_path(&arr[orig][i], tmp_by,arr[orig][from].cost + arr[from][i].cost);
 			}
 			tmp_by++;
@@ -97,12 +97,17 @@ void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by, i
 
 void main(void)
 {
-	int i;
+	int i,k;
 	init_path(array);
 	init_path(tmp);
 	print_path_array(array);
-	for (i=1;i<10;i++)
-		print_avaible_by(array, i, i, 0, 6);
-	print_path_array(array);
+	for (k=0;k<=6;k++) {
+		printf("C(k=%d)\n", k);
+		for (i=1;i<10;i++) {
+			print_avaible_by(array, i, i, 0, 6);
+		}
+		print_path_array(array);
+		printf("\n");
+	}
 	return;
 }
