@@ -80,19 +80,17 @@ void print_avaible(struct path arr[10][10], int from)
 
 void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by, int by) 
 {
-	TMP БЛЯ
 	int i,j;
-	printf("Input: %d %d %d %d", orig, from, tmp_by, by);
-	if (tmp_by < 0 || tmp_by > by)
+	if (tmp_by < 0 || tmp_by > by) 
 		return;
 	for (i=1;i<10;i++) {
 		if (arr[from][i].cost > 0 && orig != i ) {
-			if ( orig == 1 )
-				printf("%d->%d: %d by %d\n", orig, i, arr[orig][from].cost + arr[from][i].cost, by);
-			if (arr[orig][i].cost <= 0) {
+			if (arr[orig][i].cost <= 0 && tmp_by <= by) {
+				printf("%d->%d: %d by %d\n", orig, i, arr[orig][from].cost + arr[from][i].cost, tmp_by);
 				add_path(&arr[orig][i], tmp_by,arr[orig][from].cost + arr[from][i].cost);
 			}
-			print_avaible_by(arr, orig, i, ++tmp_by, by);
+			tmp_by++;
+			print_avaible_by(arr, orig, i, tmp_by, by);
 		}
 	}
 }
@@ -104,8 +102,7 @@ void main(void)
 	init_path(tmp);
 	print_path_array(array);
 	for (i=1;i<10;i++)
-		print_avaible_by(array, i, i, 0, 1);
+		print_avaible_by(array, i, i, 0, 6);
 	print_path_array(array);
-	printf("Баг в том, что несмотря на то, что я использую by 1, но находится элемент например 8->3. Где-то косяк с записью by в элемент структуры при добавлении\n");
 	return;
 }
