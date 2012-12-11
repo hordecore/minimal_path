@@ -17,10 +17,10 @@ void add_path(struct path *elem, int by, int cost)
 
 void init_path(struct path arr[10][10])
 {
-	int i,j;
-	for (i=1;i<10;i++)
-		for (j=1;j<10;j++)
-			if (i==j) 
+	int i, j;
+	for (i = 1; i < 10; i++)
+		for (j = 1; j < 10; j++)
+			if (i == j)
 				add_path(&arr[j][i], 0, 0);
 			else
 				add_path(&arr[j][i], 0, -1);
@@ -49,11 +49,11 @@ void init_path(struct path arr[10][10])
 
 void print_path_array(struct path arr[10][10])
 {
-	int i,j;
+	int i, j;
 	printf("t\\f|_1__2__3__4__5__6__7__8__9_\n");
-	for (i=1;i<10;i++) {
-		printf(" %d |",i);
-		for (j=1;j<10;j++)
+	for (i = 1; i < 10; i++) {
+		printf(" %d |", i);
+		for (j = 1; j < 10; j++)
 			if (arr[j][i].cost > -1)
 				if (arr[j][i].cost < 10)
 					printf(" %d ", arr[j][i].cost);
@@ -66,32 +66,38 @@ void print_path_array(struct path arr[10][10])
 	return;
 }
 
-void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by, int by) 
+void print_avaible_by(struct path arr[10][10], int orig, int from, int tmp_by,
+		      int by)
 {
-	int i,j;
-	if (tmp_by < 0 || tmp_by > by) 
+	int i;
+	if (tmp_by < 0 || tmp_by > by)
 		return;
-	for (i=1;i<10;i++) 
-		if (arr[from][i].cost > 0 && orig != i ) {
-			if ((arr[orig][i].cost <= 0 || arr[orig][i].cost > arr[orig][from].cost + arr[from][i].cost) && tmp_by <= by) 
-				add_path(&arr[orig][i], tmp_by,arr[orig][from].cost + arr[from][i].cost);
+	for (i = 1; i < 10; i++)
+		if (arr[from][i].cost > 0 && orig != i) {
+			if ((arr[orig][i].cost <= 0
+			     || arr[orig][i].cost >
+			     arr[orig][from].cost + arr[from][i].cost)
+			    && tmp_by <= by)
+				add_path(&arr[orig][i], tmp_by,
+					 arr[orig][from].cost +
+					 arr[from][i].cost);
 			tmp_by++;
 			print_avaible_by(arr, orig, i, tmp_by, by);
 		}
 }
 
-void main(void)
+int main(void)
 {
-	int i,k;
+	int i, k;
 	init_path(array);
 	init_path(tmp);
 	print_path_array(array);
-	for (k=0;k<=6;k++) {
+	for (k = 0; k <= 6; k++) {
 		printf("C(k=%d)\n", k);
-		for (i=1;i<10;i++) 
+		for (i = 1; i < 10; i++)
 			print_avaible_by(array, i, i, 0, k);
 		print_path_array(array);
 		printf("\n");
 	}
-	return;
+	return 0;
 }
